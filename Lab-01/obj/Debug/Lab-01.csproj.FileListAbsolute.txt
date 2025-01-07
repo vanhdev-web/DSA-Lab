@@ -1,0 +1,7 @@
+C:\Users\hoang\OneDrive\Desktop\Việt Anh\DSA-Lab\Lab-01\bin\Debug\Lab-01.exe.config
+C:\Users\hoang\OneDrive\Desktop\Việt Anh\DSA-Lab\Lab-01\bin\Debug\Lab-01.exe
+C:\Users\hoang\OneDrive\Desktop\Việt Anh\DSA-Lab\Lab-01\bin\Debug\Lab-01.pdb
+C:\Users\hoang\OneDrive\Desktop\Việt Anh\DSA-Lab\Lab-01\obj\Debug\Lab-01.csproj.AssemblyReference.cache
+C:\Users\hoang\OneDrive\Desktop\Việt Anh\DSA-Lab\Lab-01\obj\Debug\Lab-01.csproj.CoreCompileInputs.cache
+C:\Users\hoang\OneDrive\Desktop\Việt Anh\DSA-Lab\Lab-01\obj\Debug\Lab-01.exe
+C:\Users\hoang\OneDrive\Desktop\Việt Anh\DSA-Lab\Lab-01\obj\Debug\Lab-01.pdb
