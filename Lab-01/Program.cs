@@ -107,18 +107,28 @@ namespace Lab_01
         }
 
         //In danh sách sách
-        public static void InDSSach()
+        public static void InDSSach(bool isNew = true,List<Sach> ds=null)
         {
-    
-            foreach (Sach sach in dsSach)
+            if (isNew)
             {
-                Console.WriteLine(
-                    $"Mã sách : {sach.MaSach}\n" + 
-                    $"Tên sách : {sach.TenSach}\n" +
-                    $"Tên tác giả : {sach.TacGia}\n" +
-                    $"Năm xuất bản : {sach.NamXuatBan}\n" +
-                    $"Số lượng : {sach.SoLuong} \n" 
-                    );
+                foreach (Sach sach in dsSach)
+                {
+                    InSach(sach);
+                }
+            }
+            else
+            {
+                if (ds != null)
+                {
+                    foreach (Sach sach in ds)
+                    {
+                        InSach(sach);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Không tìm thấy sách");
+                }
             }
         }
 
@@ -156,29 +166,51 @@ namespace Lab_01
             }
         }
 
-        public static void InDSSachTimKiem(List<Sach> ds)
-        {
-            if (ds != null)
-            {
-                foreach (Sach sach in ds)
-                {
-                    Console.WriteLine(
-                        $"Mã sách : {sach.MaSach}\n" +
-                        $"Tên sách : {sach.TenSach}\n" +
-                        $"Tên tác giả : {sach.TacGia}\n" +
-                        $"Năm xuất bản : {sach.NamXuatBan}\n" +
-                        $"Số lượng : {sach.SoLuong} \n"
-                        );
-                }
-            }
-            else
-            {
-                Console.WriteLine("Không tìm thấy sách");
-            }
-        }
 
         //Mượn sách
-        
+
+       /* public class PhieuMuon
+        {
+            public string MaPhieuMuon;
+            public string MaDocGia;
+            public string MaSach;
+            public DateTime NgayMuon;
+            public DateTime NgayTra;
+
+        }*/
+        public static void MuonSach(string MaPhieuMuon, string MaDocGia, string MaSach, DateTime NgayMuon, DateTime NgayTra)
+        {
+            PhieuMuon pm = new PhieuMuon();
+            pm.MaPhieuMuon = MaPhieuMuon;
+            pm.MaDocGia = MaDocGia;
+            pm.MaSach = MaSach;
+            pm.NgayMuon = NgayMuon;
+            pm.NgayTra = NgayTra;
+            InPhieuMuon(pm.MaPhieuMuon, pm.MaDocGia, pm.MaSach, pm.NgayMuon, pm.NgayTra);
+        }
+        //Trả sách
+        public static void TraSach(string MaPhieuMuon, string MaDocGia, string MaSach, DateTime NgayMuon, DateTime NgayTra)
+        {
+            PhieuMuon pm = new PhieuMuon();
+            pm.MaPhieuMuon = MaPhieuMuon;
+            pm.MaDocGia = MaDocGia;
+            pm.MaSach = MaSach;
+            pm.NgayMuon = NgayMuon;
+            pm.NgayTra = NgayTra;
+            InPhieuMuon(pm.MaPhieuMuon, pm.MaDocGia, pm.MaSach, pm.NgayMuon, pm.NgayTra,NgayMuon<NgayTra);
+        }
+
+        public static void InPhieuMuon(string MaPhieuMuon, string MaDocGia, string MaSach, DateTime NgayMuon, DateTime NgayTra, bool Tinhtrang= true)
+        {
+            string tinhtrang = Tinhtrang == true ?"Đúng hạn" : "Trễ hạn" ;
+            Console.WriteLine($"Mã phiếu mượn : {MaPhieuMuon}\n" +
+                $"Mã độc giả : {MaDocGia}\n" +
+                $"Mã sách : {MaSach}\n" +
+                $"Ngày mượn : {NgayMuon}\n" +
+                $"Ngày trả : {NgayTra}\n"+
+                $"Tình trạng: {tinhtrang}\n"); 
+        }
+
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -188,9 +220,9 @@ namespace Lab_01
             Sach sach2 = ThemSach("002", "Atomic Habits", "James Clear", 2018, 20);
             dsSach.Add(sach2);
             Sach sach3 = ThemSach("003", "To Kill a Mockingbird", "Harper Lee", 1960, 30);
-            dsSach.Add(sach1);
+            dsSach.Add(sach3);
             Sach sach4 = ThemSach("004", "The Clear Path to Productivity", "James Clear", 2020, 40);
-            dsSach.Add(sach2);
+            dsSach.Add(sach4);
 
 
             // Thêm độc giả vào list
@@ -198,7 +230,7 @@ namespace Lab_01
             dsDocGia.Add(docgia1);
             DocGia docgia2 = themDocGia("B00", "LE QUOC BAO", "Quận 2", "0505050505");
             dsDocGia.Add(docgia1);
-            DocGia docgia3 = themDocGia("C00", "DO VIET ANH", "Quận 3", "0606060606");
+            DocGia docgia3 = themDocGia("C00", "TANG THOAI HAO", "Quận 3", "0606060606");
             dsDocGia.Add(docgia1);
 
             //InDSSach();
@@ -211,9 +243,18 @@ namespace Lab_01
             /*Sach sach =TKtensach("Atomic Habits");
             InSach(sach);*/
 
-            List<Sach> dstimkiem = TKtacgia("James Clear");
-            InDSSachTimKiem(dstimkiem);
+            //Tìm kiêm theo tác giả
+            /*List<Sach> dstimkiem = TKtacgia("James Clear");
+            InDSSach(false,dstimkiem);*/
 
+
+            //Mượn sách
+            DateTime datetime = DateTime.Now;
+            //MuonSach("01", "A00", "001",datetime , datetime.AddDays(20));
+
+            //Trả sách
+            //TraSach("01", "A00", "001", datetime, new DateTime(2024,1,1));
+            
 
             Console.ReadKey();
 
