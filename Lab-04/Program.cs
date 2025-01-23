@@ -9,9 +9,24 @@ namespace Lab_04
 {
     public abstract class Avector
     {
+        public float X { get; set; }
+        public float Y { get; set; }
+
+        public Avector()
+        {
+            this.X = 0;
+            this.Y = 0;
+        }
+
+        public Avector(float x, float y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
+
         public virtual void ShowInfo()
         {
-            Console.WriteLine("Đây là vector");
+            Console.WriteLine($"Vector {this.GetType().Name} ({this.X} , {this.Y})");
         }
 
         public abstract Avector Add(Avector other);
@@ -26,24 +41,10 @@ namespace Lab_04
 
     public class Vector2D : Avector
     {
-        public float X {  get; set; }
-        public float Y { get; set; }
-        
-        public override void ShowInfo()
-        {
-            Console.WriteLine($"Vector {this.GetType().Name} ({this.X} , {this.Y})");
-        }
-        public Vector2D()
-        {
-            this.X = 0;
-            this.Y = 0;
-        }
+        public Vector2D() : base() { }
+        public Vector2D(float x, float y) : base(x, y) { }
 
-        public Vector2D(float x, float y)
-        {
-            this.X = x;
-            this.Y = y;
-        }
+
         public override Avector Add(Avector other)
         {
             if (other is Vector2D vector2d)
@@ -109,8 +110,6 @@ namespace Lab_04
 
     public class Vector3D : Avector
     {
-        public float X { get; set; }
-        public float Y { get; set; }
         public float Z { get; set; }
 
                                        
@@ -121,15 +120,11 @@ namespace Lab_04
         }
         public Vector3D()
         {
-            this.X = 0;
-            this.Y = 0;
             this.Z = 0;
         }
 
-        public Vector3D(float x, float y,float z)
+        public Vector3D(float x, float y,float z):base(x,y)
         {
-            this.X = x;
-            this.Y = y;
             this.Z= z;
         }
         public override Avector Add(Avector other)
@@ -185,7 +180,7 @@ namespace Lab_04
 
         public override float Angle(Avector other)
         {
-            if (other is Vector2D vector2d)
+            if (other is Vector3D vector3d)
             {
                 return Module() == 0 || other.Module() == 0 ? (float)Math.Acos(Dot(other)) / (Module() * other.Module()) : -1;
             }
