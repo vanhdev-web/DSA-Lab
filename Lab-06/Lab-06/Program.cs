@@ -9,7 +9,7 @@ using Microsoft.SqlServer.Server;
 
 namespace ConsoleApp1
 {
-    public abstract class ABicycle : IComparable 
+    public abstract class ABicycle : IComparable
     {
         public int id { get; set; }
         public string color { get; set; }
@@ -23,10 +23,10 @@ namespace ConsoleApp1
             this.price = price;
 
         }
-        public void Print()
-        {
+        public abstract void Print();
+        /*{
             Console.WriteLine($"Info ( id : {id} , color: {color}, price : {price})");
-        }
+        }*/
 
         public int CompareTo(object obj)
         {
@@ -36,148 +36,187 @@ namespace ConsoleApp1
             return 0;
 
         }
+        public abstract void MakeDeal(double discount);
+        
+    }
 
         
 
-        public class UsualBicycle : ABicycle , ICloneable
+    public class UsualBicycle : ABicycle , ICloneable
+    {
+        public bool utility;
+        public UsualBicycle(int id, string color, double price, bool utility) : base(id, color, price)
         {
-            public bool utility;
-            public UsualBicycle(int id, string color, double price, bool utility) : base(id, color, price)
-            {
-                this.utility = utility;
-            }
-
-            public object Clone()
-            {
-                return new UsualBicycle(this.id, this.color, this.price, this.utility);
-            }
+            this.utility = utility;
         }
 
-        public class SpeedBicycle : ABicycle, ICloneable
+        public object Clone()
         {
-            public int speedrate;
-            public SpeedBicycle(int id, string color, double price, int speedrate) : base(id, color, price)
-            {
-                this.speedrate = speedrate;
-            }
-
-            public object Clone()
-            {
-                return new SpeedBicycle(this.id, this.color, this.price, this.speedrate);
-            }
+            return new UsualBicycle(this.id, this.color, this.price, this.utility);
         }
 
-        public class ClimbBicycle : ABicycle, ICloneable
+        public override void Print()
         {
-            public int climbrate;
-            public ClimbBicycle(int id, string color, double price, int climbrate) : base(id, color, price)
-            {
-                this.climbrate = climbrate;
-            }
-
-            public object Clone()
-            {
-                return new ClimbBicycle(this.id, this.color, this.price, this.climbrate);
-            }
+            Console.WriteLine($"Info {this.GetType().Name} ( id : {this.id} , color: {this.color}, price : {this.price}), utility : {this.utility}");
         }
 
-        public class Store
+        public override void MakeDeal(double discount)
         {
-                public List<ABicycle> Bicycles = new List<ABicycle>()
-            {
-                new UsualBicycle(1, "red", 270, true),
-                new UsualBicycle(3, "blue", 110, false),
-                new UsualBicycle(10, "orange", 120, true),
-                new UsualBicycle(4, "gray", 430, false),
+            this.price = this.price - this.price * (discount / 100);
+        }
+    }
 
-                new SpeedBicycle(5, "gray", 144, 2),
-                new SpeedBicycle(2, "white", 710, 2),
-                new SpeedBicycle(2, "white", 710, 2),
+    public class SpeedBicycle : ABicycle, ICloneable
+    {
+        public int speedrate;
+        public SpeedBicycle(int id, string color, double price, int speedrate) : base(id, color, price)
+        {
+            this.speedrate = speedrate;
+        }
 
-                new ClimbBicycle(7, "blue", 670, 2),
-                new ClimbBicycle(8, "green", 302, 4),
-                new ClimbBicycle(6, "pink", 175, 5)
-            };
+        public object Clone()
+        {
+            return new SpeedBicycle(this.id, this.color, this.price, this.speedrate);
+        }
+
+        public override void Print()
+        {
+            Console.WriteLine($"Info {this.GetType().Name} ( id : {this.id} , color: {this.color}, price : {this.price}), speedrate : {this.speedrate}");
+        }
+
+        public override void MakeDeal(double discount)
+        {
+            this.price = this.price - this.price * (discount/100);
+        }
+    }
+
+    public class ClimbBicycle : ABicycle, ICloneable
+    {
+        public int climbrate;
+        public ClimbBicycle(int id, string color, double price, int climbrate) : base(id, color, price)
+        {
+            this.climbrate = climbrate;
+        }
+
+        public object Clone()
+        {
+            return new ClimbBicycle(this.id, this.color, this.price, this.climbrate);
+        }
+        public override void Print()
+        {
+            Console.WriteLine($"Info {this.GetType().Name} ( id : {this.id} , color: {this.color}, price : {this.price}), climbrate : {this.climbrate}");
+        }
+
+        public override void MakeDeal(double discount)
+        {
+            this.price = this.price - this.price * (discount / 100);
+        }
+    }
+
+    public class Store
+    {
+            public List<ABicycle> Bicycles = new List<ABicycle>()
+        {
+            new UsualBicycle(1, "red", 270, true),
+            new UsualBicycle(3, "blue", 110, false),
+            new UsualBicycle(10, "orange", 120, true),
+            new UsualBicycle(4, "gray", 430, false),
+
+            new SpeedBicycle(5, "gray", 144, 2),
+            new SpeedBicycle(2, "white", 710, 2),
+            new SpeedBicycle(2, "white", 710, 2),
+
+            new ClimbBicycle(7, "blue", 670, 2),
+            new ClimbBicycle(8, "green", 302, 4),
+            new ClimbBicycle(6, "pink", 175, 5)
+        };
 
             
-            /* Bicycles.Add(new UsualBicycle(1, "red", 270, true));
-             Bicycles.Add(new UsualBicycle(3, "blue", 110, false));
-             Bicycles.Add(new UsualBicycle(10, "orange", 120, true));
-             Bicycles.Add(new UsualBicycle(4, "gray", 430, false));
+        /* Bicycles.Add(new UsualBicycle(1, "red", 270, true));
+            Bicycles.Add(new UsualBicycle(3, "blue", 110, false));
+            Bicycles.Add(new UsualBicycle(10, "orange", 120, true));
+            Bicycles.Add(new UsualBicycle(4, "gray", 430, false));
 
 
-             Bicycles.Add(new SpeedBicycle(5, "gray", 144, 2));
-             Bicycles.Add(new SpeedBicycle(2, "white", 710, 2));
-             Bicycles.Add(new SpeedBicycle(9, "blue", 283, 2));
+            Bicycles.Add(new SpeedBicycle(5, "gray", 144, 2));
+            Bicycles.Add(new SpeedBicycle(2, "white", 710, 2));
+            Bicycles.Add(new SpeedBicycle(9, "blue", 283, 2));
 
 
-             Bicycles.Add(new ClimbBicycle(7, "blue", 670, 2));
-             Bicycles.Add(new ClimbBicycle(8, "green", 302, 4));
-             Bicycles.Add(new ClimbBicycle(6, "pink", 175, 5));*/
+            Bicycles.Add(new ClimbBicycle(7, "blue", 670, 2));
+            Bicycles.Add(new ClimbBicycle(8, "green", 302, 4));
+            Bicycles.Add(new ClimbBicycle(6, "pink", 175, 5));*/
 
 
 
-            public List<ABicycle> Search(int from, int to)
+        public List<ABicycle> Search(int from, int to)
+        {
+            
+            List<ABicycle> result = new List<ABicycle>();
+            foreach (ABicycle i in Bicycles)
             {
-                
-                List<ABicycle> result = new List<ABicycle>();
-                foreach (ABicycle i in Bicycles)
+                if (i.price >= from && i.price <= to)
                 {
-                    if (i.price >= from && i.price <= to)
-                    {
-                        result.Add(i);
-                    }
+                    result.Add(i);
                 }
-                return result;
             }
-
-            public List<ABicycle> Arrange(bool ascending = true)
-            {
-
-
-                Bicycles.Sort();
-                if (!ascending)
-                {
-                    Bicycles.Reverse();
-                }
-                return Bicycles;
-            }
-
-
-
+            return result;
         }
 
-        internal class Program
+        public List<ABicycle> Arrange(bool ascending = true)
         {
-            public static void printListBicycle(List<ABicycle> list)
+
+
+            Bicycles.Sort();
+            if (!ascending)
             {
-                foreach (ABicycle i in list)
-                {
-                    i.Print();
-                }
+                Bicycles.Reverse();
             }
+            return Bicycles;
+        }
 
-            static void Main(string[] args)
+
+
+    }
+
+    internal class Program
+    {
+        public static void printListBicycle(List<ABicycle> list)
+        {
+            foreach (ABicycle i in list)
             {
-                Store store = new Store();
-                //Tìm kiếm theo giá
-                printListBicycle(store.Search(300, 700));
-                Console.WriteLine();
-
-                printListBicycle(store.Bicycles);
-                Console.WriteLine();
-                //Sắp xếp từ thấp lên cao
-                store.Arrange();
-                printListBicycle(store.Bicycles);
-
-                Console.WriteLine();
-                //Sắp xếp từ cao xuông thấp
-                store.Arrange(false);
-                printListBicycle(store.Bicycles);
-
-                Console.ReadLine();
-
+                i.Print();
             }
+        }
+
+        static void Main(string[] args)
+        {
+            Console.OutputEncoding = Encoding.UTF8; 
+            Store store = new Store();
+
+            Console.Write("Gía của sản phẩm đầu tiên trước thay đổi: ");
+            Console.WriteLine(store.Bicycles[0].price);
+            store.Bicycles[0].MakeDeal(15);
+            Console.Write("Gía của sản phẩm đầu tiên sau thay đổi : ");
+            Console.WriteLine(store.Bicycles[0].price);
+
+            //Tìm kiếm theo giá
+            printListBicycle(store.Search(300, 700));
+            Console.WriteLine();
+
+            printListBicycle(store.Bicycles);
+            Console.WriteLine();
+            //Sắp xếp từ thấp lên cao
+            store.Arrange();
+            printListBicycle(store.Bicycles);
+
+            Console.WriteLine();
+            //Sắp xếp từ cao xuông thấp
+            store.Arrange(false);
+            printListBicycle(store.Bicycles);
+
+            Console.ReadLine();
+
         }
     }
 }
